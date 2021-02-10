@@ -49,7 +49,7 @@ const usePokemons = ({ search = '', page = 1 }: hookProps ) => {
       }))
       setPokemonDetails(pokemonDetails)
     });
-  }, [offset]);
+  }, [offset, service]);
 
   return {
     count,
