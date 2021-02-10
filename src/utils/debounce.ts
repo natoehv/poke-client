@@ -4,7 +4,7 @@ const debounce = <T extends Function>(cb: T, wait = 20) => {
       clearTimeout(h);
       h = setTimeout(() => cb(...args), wait);
   };
-  return <T>(<any>callable);
+  return (callable as any) as T;
 }
 
 export default debounce;

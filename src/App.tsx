@@ -1,6 +1,6 @@
 import React from 'react';
 import Listing from './components/organism/Listing';
-import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import './App.css';
 
 const theme = createMuiTheme({

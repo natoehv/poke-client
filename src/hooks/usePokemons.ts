@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { PokemonDetailAPI } from '../domain/entities/API';
 import { PokeFactory } from '../domain/factories/PokeFactory'
 
@@ -19,7 +19,7 @@ const usePokemons = ({ search = '', page = 1 }: hookProps ) => {
   const [filttered, setFilttered] = useState<Array<PokemonDetailAPI>>([]);
 
   const [count, setCount] = useState(0);
-  const service = PokeFactory.createService();
+  const service = useRef(PokeFactory.createService());
 
   const searchFilter = (search: string, pokemon: PokemonDetailAPI) => {
     return pokemon.name.includes(search)
@@ -37,12 +37,12 @@ const usePokemons = ({ search = '', page = 1 }: hookProps ) => {
 
   useEffect(() => {
     setLoading(true);
-    service.getPokemons({ offset, limit}).then(async (pokemons) => {
+    service.current.getPokemons({ offset, limit}).then(async (pokemons) => {
       setCount(Math.floor(pokemons.count / limit))
       const pokemonDetails = await Promise.all(pokemons.results.map(({ url }) => {
         const splitted = url.split('/');
         const pokeID = splitted[splitted.length-2];
-        return service.getPokemon(pokeID).then((pokemon) => {
+        return service.current.getPokemon(pokeID).then((pokemon) => {
           setLoading(false);
           return pokemon;
         });
